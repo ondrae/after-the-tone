@@ -11,10 +11,8 @@ app = Flask(__name__)
 app.config.from_pyfile('settings.cfg', silent=True)
 heroku = Heroku(app)  # Sets CONFIG automagically
 
-app.config.update(
-    X_Parse_Application_Id = os.environ.get('X-Parse-Application-Id'),
-    X_Parse_REST_API_Key = os.environ.get('X-Parse-REST-API-Key')
-)
+X_Parse_Application_Id = os.environ.get('X-Parse-Application-Id')
+X_Parse_REST_API_Key = os.environ.get('X-Parse-REST-API-Key')
 
 #----------------------------------------
 # Routes
