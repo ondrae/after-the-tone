@@ -7,6 +7,7 @@ from flask.ext.heroku import Heroku
 #----------------------------------------
 
 app = Flask(__name__)
+app.config.from_pyfile('settings.cfg', silent=True)
 heroku = Heroku(app)  # Sets CONFIG automagically
 
 #----------------------------------------
@@ -23,5 +24,12 @@ def index():
     f.close()
     return render_template('index.html', death_switch_message=death_switch_message, death_texts=death_texts)
 
+@app.route('/voicemail')
+def voicemail():
+  sound = "http://glacial-thicket-7208.herokuapp.com/static/i-have-died.mp3"
+  return'<?xml version="1.0" encoding="UTF-8"?><Response><Play>%s</Play></Response>' %(sound)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
+
