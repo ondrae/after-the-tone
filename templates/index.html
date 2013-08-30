@@ -1,0 +1,74 @@
+<!doctype html>
+	<title>After the Tone</title>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="static/main.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<body class="container">
+	  <header>
+	  	    <!-- Fixed navbar -->
+		    <div class="navbar navbar-inverse navbar-fixed-top">
+		      <div class="container">
+		        <div class="navbar-header">
+		          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		          </button>
+		          <a class="navbar-brand" href="/">After the Tone | Control Panel</a>
+		        </div>
+		        <div class="navbar-collapse collapse">
+		          <ul class="nav navbar-nav">
+	                <li class="active"><a href="#">Performance One</a></li>
+	                <li><a href="#">Performance Two</a></li>
+	                <li><a href="#">Performance Three</a></li>
+		          </ul>
+		        </div><!--/.nav-collapse -->
+		      </div>
+		    </div>
+	  </header>
+
+	  <section id="death-switch" class="row">
+	  	<div class="col-lg-10 col-offset-1">
+	  	<h2>Throw the Death Switch</h2>
+        	<button type="button" class="btn btn-lg btn-warning"><img src="static/death.svg"></button>
+	    <h2>Death Switch Message</h2>
+	    <div id="death-swtich-message">
+	    	{{ death_switch_message }}
+	    </div>
+	</div>
+	  </section>
+
+	  <section id="death-texts">
+	  	<h2>Death Texts</h2>
+		<ul>
+			{% for death_text in death_texts %}
+			<li>{{ death_text }}</li>
+			{% endfor %}
+		</ul>
+	  </section>
+
+	  <section id="monologue">
+	  	<h2>Voicemail Monologue</h2>
+	  	<audio src="/static/i-have-died.mp3" controls>
+			<p>Your browser does not support the audio element.</p>
+		</audio>
+	  </section>
+
+	  <section id="collected-numbers">
+	  	<h2>Collected Phone Numbers</h2>
+	  	<ul>
+	  	</ul>
+	  </section>
+
+	  <section id="collected-voicemails">
+	  	<h2>Collected Voicemails</h2>
+	  	<ul>
+	  	</ul>
+	  </section>
+
+	  <footer>
+	  </footer>
+</body>
+<!-- Latest compiled and minified JavaScript -->
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+</html>
