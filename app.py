@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for
-# from flask.ext.heroku import Heroku
+from flask.ext.heroku import Heroku
 # import requests
 
 #----------------------------------------
@@ -7,7 +7,7 @@ from flask import Flask, render_template, url_for
 #----------------------------------------
 
 app = Flask(__name__)
-# heroku = Heroku(app)  # Sets CONFIG automagically
+heroku = Heroku(app)  # Sets CONFIG automagically
 
 #----------------------------------------
 # Routes
