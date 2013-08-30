@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for
 from flask import Response
 from flask.ext.heroku import Heroku
-import requests
+import requests, os
 
 #----------------------------------------
 # initialization
@@ -12,8 +12,8 @@ app.config.from_pyfile('settings.cfg', silent=True)
 heroku = Heroku(app)  # Sets CONFIG automagically
 
 app.config.update(
-    X_Parse_Application_Id = environ.get('X-Parse-Application-Id'),
-    X_Parse_REST_API_Key = environ.get('X-Parse-REST-API-Key')
+    X_Parse_Application_Id = os.environ.get('X-Parse-Application-Id'),
+    X_Parse_REST_API_Key = os.environ.get('X-Parse-REST-API-Key')
 )
 
 #----------------------------------------
