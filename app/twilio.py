@@ -1,5 +1,5 @@
 import requests
-from setup import app
+from app import app
 
 def send_sms(recipient_number, message = "You are grrrreat."):
 	msg_dict = {}
@@ -9,3 +9,4 @@ def send_sms(recipient_number, message = "You are grrrreat."):
 	twilio_endpoint = "https://api.twilio.com/2010-04-01/Accounts/%s/SMS/Messages.json" % (app.config['TWILIO_ACCOUNT_SID'])
 	r = requests.post("%s" %(twilio_endpoint), data = msg_dict, auth=(app.config['TWILIO_ACCOUNT_SID'], app.config['TWILIO_AUTH_TOKEN']))
 	print r.json()
+

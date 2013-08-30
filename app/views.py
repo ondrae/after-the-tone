@@ -1,15 +1,8 @@
 from flask import Flask, render_template, url_for
 from flask import Response
 from flask.ext.heroku import Heroku
-# import requests
-
-#----------------------------------------
-# initialization
-#----------------------------------------
-
-app = Flask(__name__)
-app.config.from_pyfile('settings.cfg', silent=True)
-heroku = Heroku(app)  # Sets CONFIG automagically
+from app import app
+import os
 
 #----------------------------------------
 # Routes
@@ -17,10 +10,11 @@ heroku = Heroku(app)  # Sets CONFIG automagically
 
 @app.route('/')
 def index():
-    f = open('static/death_switch_message.txt','r')
+  # url_for('show_request_for_x',
+    f = open(os.path.join(app.root_path, 'static/death_switch_message.txt'), 'r')
     death_switch_message = f.read()
     f.close()
-    f = open('static/death_texts.txt','r')
+    f = open(os.path.join(app.root_path,'static/death_texts.txt'),'r')
     death_texts = f.readlines()
     f.close()
     return render_template('index.html', death_switch_message=death_switch_message, death_texts=death_texts)
@@ -31,7 +25,7 @@ def voicemail():
   xml = '<?xml version="1.0" encoding="UTF-8"?><Response><Play>%s</Play></Response>' % (sound)
   return Response(xml, mimetype ='text/xml')
 
-  
+
 if __name__ == '__main__':
     app.run(debug=True)
 
