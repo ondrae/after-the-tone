@@ -1,4 +1,5 @@
 from flask import Flask, render_template, url_for
+from flask import Response
 from flask.ext.heroku import Heroku
 # import requests
 
@@ -27,9 +28,10 @@ def index():
 @app.route('/voicemail')
 def voicemail():
   sound = "http://glacial-thicket-7208.herokuapp.com/static/i-have-died.mp3"
-  return'<?xml version="1.0" encoding="UTF-8"?><Response><Play>%s</Play></Response>' %(sound)
+  xml = '<?xml version="1.0" encoding="UTF-8"?><Response><Play>%s</Play></Response>' % (sound)
+  return Response(xml, mimetype ='text/xml')
 
-
+  
 if __name__ == '__main__':
     app.run(debug=True)
 
