@@ -28,7 +28,7 @@ def index():
         death_texts.append(i['text'])
     return render_template('index.html', death_switch_message=death_switch_message, death_texts=death_texts)
 
-@app.route('/voicemail', methods=['GET'])
+@app.route('/voicemail', methods=['GET', 'POST'])
 def voicemail():
   sound = "http://glacial-thicket-7208.herokuapp.com/static/i-have-died.mp3"
   xml = '<?xml version="1.0" encoding="UTF-8"?><Response><Play>%s</Play></Response>' % (sound)
