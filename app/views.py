@@ -4,8 +4,8 @@ from flask.ext.heroku import Heroku
 from app import app
 import requests, os
 
-X_Parse_Application_Id = os.environ.get('X-Parse-Application-Id')
-X_Parse_REST_API_Key = os.environ.get('X-Parse-REST-API-Key')
+X_Parse_Application_Id = app.config['X_Parse_Application_Id']
+X_Parse_REST_API_Key = app.config['X_Parse_REST_API_Key']
 
 #----------------------------------------
 # Routes

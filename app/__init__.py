@@ -15,3 +15,5 @@ def set_env(key):
 set_env(key = 'TWILIO_ACCOUNT_SID')
 set_env(key = 'TWILIO_AUTH_TOKEN')
 set_env(key = 'TWILIO_NUMBER')
+set_env(key = 'X_Parse_REST_API_Key')
+set_env(key = 'X_Parse_Application_Id')
