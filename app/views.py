@@ -4,8 +4,6 @@ from flask.ext.heroku import Heroku
 from app import app
 import requests, os
 
-X_Parse_Application_Id = app.config['X_Parse_Application_Id']
-X_Parse_REST_API_Key = app.config['X_Parse_REST_API_Key']
 
 #----------------------------------------
 # Routes
@@ -15,8 +13,8 @@ X_Parse_REST_API_Key = app.config['X_Parse_REST_API_Key']
 def index():
 
     headers = {
-        "X-Parse-Application-Id" : X_Parse_Application_Id,
-        "X-Parse-REST-API-Key" : X_Parse_REST_API_Key
+        "X-Parse-Application-Id" : app.config['X_Parse_Application_Id'],
+        "X-Parse-REST-API-Key" : app.config['X_Parse_REST_API_Key']
     }
     r = requests.get("https://api.parse.com/1/classes/DeathSwitchMessage", headers=headers)
     r = r.json()
