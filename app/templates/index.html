@@ -28,26 +28,41 @@
 		    </div>
 	  </header>
 
-	  <section>
-	  	<h2>After the Tone Phone Number</h2>
-	  	<h1>415-741-2078</h1>
+	  <section id="monologue" class="row">
+	  	<div class="col-lg-6 col-md-6 col-6 col-offset-1">
+			<h2>When people call this number</h2>
+			<h1>415-741-2078</h1>
+		</div>
+		<div class="col-lg-4 col-md-4 col-4">
+			<h2>they'll hear this message</h2>
+			<audio src="http://after-the-tone.s3-us-west-1.amazonaws.com/i-have-died.mp3"controls>
+				<p>Your browser does not support the audio element.</p>
+			</audio>
+		</div>
 	  </section>
 
+	  <section id="collected-numbers">
+		<h2>When you're ready, click this button to get all the numbers</h2>
+		<button id="get-collected-numbers" type="button" class="btn btn-default">Get Collected Numbers</button>
+		<ul>
+		</ul>
+	</section>
+
 	  <section id="death-switch" class="row">
-	  	<div class="col-lg-7 col-md-7 col-7 col-offset-1">
-	  		<h2>Death Switch Message</h2>
+	  	<div class="col-lg-5 col-md-5 col-5 col-offset-1">
+	    	<h2>then throw the Death Switch</h2>
+	        <button id="death-switch-btn" type="button" class="btn btn-block btn-warning"><img src="static/death.svg"></button>
+		</div>
+		<div class="col-lg-6 col-md-6 col-6">
+	  		<h2>to send this message (click to edit)</h2>
 		    <p id="death-switch-message" class="edit_area">
 		    	{{ death_switch_message }}
 		    </p>
 	    </div>
-	    <div class="col-lg-4 col-md-4 col-4">
-	    	<h2>Throw the Death Switch</h2>
-	        <button type="button" class="btn btn-block btn-warning"><img src="static/death.svg"></button>
-		</div>
 	  </section>
 
 	  <section id="death-texts">
-	  	<h2>Death Texts</h2>
+	  	<h2>TODO: when they text in, send back one of these.</h2>
 		<ul>
 			{% for death_text in death_texts %}
 			<li>{{ death_text }}</li>
@@ -55,24 +70,14 @@
 		</ul>
 	  </section>
 
-	  <section id="monologue">
-	  	<h2>Voicemail Monologue</h2>
-	  	<audio src="http://after-the-tone.s3-us-west-1.amazonaws.com/i-have-died.mp3"controls>
-			<p>Your browser does not support the audio element.</p>
-		</audio>
-	  </section>
-
-	  <section id="collected-numbers">
-	  	<h2>Collected Phone Numbers</h2>
-	  	<ul>
-	  	</ul>
-	  </section>
-
-	  <section id="collected-voicemails">
-	  	<h2>Collected Voicemails</h2>
-	  	<ul>
-	  	</ul>
-	  </section>
+	<section id="collected-voicemails">
+		<h2>Todo: Collected Voicemails</h2>
+		<ul>
+			{% for voicemail in voicemails %}
+			<li>{{ voicemail }}</li>
+			{% endfor %}
+		</ul>
+	</section>
 
 	  <footer>
 	  </footer>
@@ -86,6 +91,38 @@ $(document).ready(function() {
          submit    : 'OK',
          tooltip   : 'Click to edit...'
      });
+
+     var numbers = [];
+
+     $("#get-collected-numbers").click(function(evt){
+		$.get('/get_calls', function(response){
+			var response = $.parseJSON(response);
+			$.each(response, function(i){
+				$('#collected-numbers ul').append('<li>'+response[i]['number']+'</li>');
+				numbers.push(response[i]['number']);
+			})
+		})
+	})
+
+     $("#death-switch-btn").click(function(evt){
+		// console.log($("#death-switch-message").html());
+		$.each(numbers, function(i){
+			$.get('/send_sms/'+numbers[i]+'/'+$("#death-switch-message").html(), function(response){
+			console.log(response);
+			})
+			});
+	})
+
+   //   var deathTexts = $("#death-texts ul li");
+   //   	$.each(numbers, function(i){
+   //   		var rand = Math.floor(Math.random()*deathTexts.length)
+			// console.log(deathTexts[rand].innerHTML);
+			// $.get('/send_sms/'+numbers[i]+'/'+deathTexts[rand].innerHTML, function(response){
+			// 	console.log(response);
+			// })
+   //   	});
  });
+
+
 </script>
 </html>

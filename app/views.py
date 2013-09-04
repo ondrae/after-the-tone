@@ -2,7 +2,8 @@ from flask import Flask, render_template, url_for, request
 from flask import Response
 from flask.ext.heroku import Heroku
 from app import app
-import requests, os, json, datetime
+import requests, os, json
+import twilio_routes
 
 
 #----------------------------------------
@@ -51,18 +52,4 @@ def voicemail():
 
     if request.method == "POST":
         pass
-@app.route('/get_calls')
-def get_calls():
-    numbers = []
-    auth = (app.config['TWILIO_ACCOUNT_SID'], app.config['TWILIO_AUTH_TOKEN'])
-    params = {
-        "Status" : "completed",
-        "StartTime" : str(datetime.date.today())
-    }
-    r = requests.get("http://api.twilio.com/2010-04-01/Accounts/"+app.config['TWILIO_ACCOUNT_SID']+"/Calls.json", params=params, auth=auth)
-    r = r.json()
-    for call in r["calls"]:
-        number = call["from_formatted"]
-        numbers.append(number)
-    return str(numbers)
 
