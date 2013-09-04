@@ -7,7 +7,7 @@ app = Flask(__name__)
 # heroku = Heroku(app)  # Sets CONFIG automagically
 app.debug = True
 
-app.config.from_envvar('APP_SETTINGS')
+# app.config.from_envvar('APP_SETTINGS')
 
 # Set environment variables
 def set_env(key):
