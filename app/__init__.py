@@ -4,7 +4,7 @@
 from os import environ
 from flask import Flask
 app = Flask(__name__)
-# heroku = Heroku(app)  # Sets CONFIG automagically
+heroku = Heroku(app)  # Sets CONFIG automagically
 app.debug = True
 
 # app.config.from_envvar('APP_SETTINGS')
