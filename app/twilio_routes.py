@@ -70,3 +70,15 @@ def handle_recording():
     resp = twiml.Response()
     resp.say("That was beautiful.")
     return str(resp)
+
+@app.route('/get_recordings', methods=['GET'])
+def get_recordings():
+    auth = (app.config['TWILIO_ACCOUNT_SID'], app.config['TWILIO_AUTH_TOKEN'])
+    params = {
+        "Status" : "completed",
+        "StartTime" : str(datetime.date.today())
+    }
+    r = requests.get("http://api.twilio.com/2010-04-01/Accounts/"+app.config['TWILIO_ACCOUNT_SID']+"/Recordings.json", params=params, auth=auth)
+    r = r.json()
+    recordings = r['recordings']
+    return json.dumps(recordings)

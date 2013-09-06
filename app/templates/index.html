@@ -17,13 +17,6 @@
 		          </button>
 		          <a class="navbar-brand" href="/">After the Tone | Control Panel</a>
 		        </div>
-		        <div class="navbar-collapse collapse">
-		          <ul class="nav navbar-nav">
-	                <li class="active"><a href="#">Performance One</a></li>
-	                <li><a href="#">Performance Two</a></li>
-	                <li><a href="#">Performance Three</a></li>
-		          </ul>
-		        </div><!--/.nav-collapse -->
 		      </div>
 		    </div>
 	  </header>
@@ -61,23 +54,24 @@
 	    </div>
 	  </section>
 
-	  <section id="death-texts">
-	  	<h2>TODO: when they text in, send back one of these.</h2>
-		<ul>
-			{% for death_text in death_texts %}
-			<li>{{ death_text }}</li>
-			{% endfor %}
-		</ul>
+	  <section id="death-texts" class="row">
+	  	<div class="col-lg-7 col-md-7 col-7 col-offset-1">
+		  	<h2>when they text in, send back one of these.</h2>
+			<ul>
+				{% for death_text in death_texts %}
+				<li>{{ death_text }}</li>
+				{% endfor %}
+			</ul>
+		</div>
+			<div id="collected-recordings" class="col-lg-4 col-md-4 col-4">
+				<h2>Collected Recordings</h2>
+				<button id="get-collected-recordings" type="button" class="btn btn-default">Get Collected Recordings</button>
+				<ul>
+				</ul>
+			</div>
 	  </section>
 
-	<section id="collected-voicemails">
-		<h2>Todo: Collected Voicemails</h2>
-		<ul>
-			{% for voicemail in voicemails %}
-			<li>{{ voicemail }}</li>
-			{% endfor %}
-		</ul>
-	</section>
+
 
 	  <footer>
 	  </footer>
@@ -111,6 +105,16 @@ $(document).ready(function() {
 			console.log(response);
 			})
 			});
+	})
+
+     $("#get-collected-recordings").click(function(evt){
+		$.get('/get_recordings', function(response){
+			var response = $.parseJSON(response);
+			$.each(response, function(i){
+				var recordingUrl = 'https://api.twilio.com/2010-04-01/Accounts/AC86571af1ee82e2b4e36e3c23d185f7c3/Recordings/'+response[i]['sid'];
+				$('#collected-recordings ul').append('<li><audio src="'+recordingUrl+'" controls></audio></li>');
+			})
+		})
 	})
  });
 
