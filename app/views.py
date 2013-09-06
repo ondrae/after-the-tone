@@ -1,10 +1,8 @@
 from flask import Flask, render_template, url_for, request
 from flask import Response
-from flask.ext.heroku import Heroku
 from app import app
 import requests, os, json
 import twilio_routes
-
 
 #----------------------------------------
 # Routes
