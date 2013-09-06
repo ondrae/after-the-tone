@@ -3,6 +3,7 @@ from flask import Response
 from app import app
 import requests, os, json
 import twilio_routes
+from twilio import twiml
 
 #----------------------------------------
 # Routes
@@ -43,12 +44,17 @@ def save_text():
 
 @app.route('/voicemail', methods=['GET', 'POST'])
 def voicemail():
-    if request.method == 'GET':
-        # sound = "http://after-the-tone.s3-us-west-1.amazonaws.com/i-have-died.mp3"
-        sound = request.args.get("sound")
-        xml = '<?xml version="1.0" encoding="UTF-8"?><Response><Play>%s</Play></Response>' % (sound)
-        return Response(xml, mimetype ='text/xml')
+    resp = twilio.twiml.Response()
+    # Play an mp3
+    sound = request.args.get("sound")
+    resp.play(sound)
+    return str(resp)
+    # if request.method == 'GET':
+    #     # sound = "http://after-the-tone.s3-us-west-1.amazonaws.com/i-have-died.mp3"
+    #     sound = request.args.get("sound")
+    #     xml = '<?xml version="1.0" encoding="UTF-8"?><Response><Play>%s</Play></Response>' % (sound)
+    #     return Response(xml, mimetype ='text/xml')
 
-    if request.method == "POST":
-        pass
+    # if request.method == "POST":
+    #     pass
 
