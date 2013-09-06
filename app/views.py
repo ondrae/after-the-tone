@@ -44,7 +44,7 @@ def save_text():
 
 @app.route('/voicemail', methods=['GET', 'POST'])
 def voicemail():
-    resp = twilio.twiml.Response()
+    resp = twiml.Response()
     # Play an mp3
     sound = request.args.get("sound")
     resp.play(sound)
