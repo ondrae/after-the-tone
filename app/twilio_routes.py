@@ -1,5 +1,6 @@
 import requests, json, datetime
 from app import app
+import twilio.twiml
 
 @app.route('/get_calls')
 def get_calls():
@@ -28,3 +29,9 @@ def send_sms(phone_number, message):
 	r = requests.post("%s" %(twilio_endpoint), data = msg_dict, auth=(app.config['TWILIO_ACCOUNT_SID'], app.config['TWILIO_AUTH_TOKEN']))
 	return json.dumps(r.json())
 
+@app.route('/respond_to_incoming_sms')
+def respond_to_incoming_sms():
+
+    resp = twilio.twiml.Response()
+    resp.sms("Hello, Mobile Monkey")
+    return str(resp)
