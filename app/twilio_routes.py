@@ -1,6 +1,7 @@
 import requests, json, datetime
 from app import app
-import twilio.twiml
+from twilio import twiml
+import random
 
 @app.route('/get_calls')
 def get_calls():
@@ -29,9 +30,24 @@ def send_sms(phone_number, message):
 	r = requests.post("%s" %(twilio_endpoint), data = msg_dict, auth=(app.config['TWILIO_ACCOUNT_SID'], app.config['TWILIO_AUTH_TOKEN']))
 	return json.dumps(r.json())
 
-@app.route('/respond_to_incoming_sms')
+@app.route('/respond_to_incoming_sms', methods=['GET', 'POST'])
 def respond_to_incoming_sms():
 
-    resp = twilio.twiml.Response()
-    resp.sms("Hello, Mobile Monkey")
+    # Get response messags
+    headers = {
+        "X-Parse-Application-Id" : app.config['X_PARSE_APPLICATION_ID'],
+        "X-Parse-REST-API-Key" : app.config['X_PARSE_REST_API_KEY']
+    }
+
+    r = requests.get("https://api.parse.com/1/classes/DeathTexts", headers=headers)
+    r = r.json()
+    r = r['results']
+
+    # Choose random message
+    random_message = random.choice(r)
+    random_message = random_message['text']
+
+    # Send TwiML response
+    resp = twiml.Response()
+    resp.sms(random_message)
     return str(resp)
