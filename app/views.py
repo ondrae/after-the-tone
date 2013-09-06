@@ -41,20 +41,3 @@ def save_text():
     if id == 'death-switch-message':
         requests.post("https://api.parse.com/1/classes/DeathSwitchMessage/", data=post_data, headers=headers)
     return json.loads(post_data)["text"]
-
-@app.route('/voicemail', methods=['GET', 'POST'])
-def voicemail():
-    resp = twiml.Response()
-    # Play an mp3
-    sound = request.args.get("sound")
-    resp.play(sound)
-    return str(resp)
-    # if request.method == 'GET':
-    #     # sound = "http://after-the-tone.s3-us-west-1.amazonaws.com/i-have-died.mp3"
-    #     sound = request.args.get("sound")
-    #     xml = '<?xml version="1.0" encoding="UTF-8"?><Response><Play>%s</Play></Response>' % (sound)
-    #     return Response(xml, mimetype ='text/xml')
-
-    # if request.method == "POST":
-    #     pass
-

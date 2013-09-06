@@ -95,11 +95,11 @@ $(document).ready(function() {
      var numbers = [];
 
      $("#get-collected-numbers").click(function(evt){
-		$.get('/get_calls', function(response){
+		$.get('/get_numbers', function(response){
 			var response = $.parseJSON(response);
 			$.each(response, function(i){
-				$('#collected-numbers ul').append('<li>'+response[i]['number']+'</li>');
-				numbers.push(response[i]['number']);
+				$('#collected-numbers ul').append('<li>'+response[i]+'</li>');
+				numbers.push(response[i]);
 			})
 		})
 	})
@@ -112,15 +112,6 @@ $(document).ready(function() {
 			})
 			});
 	})
-
-   //   var deathTexts = $("#death-texts ul li");
-   //   	$.each(numbers, function(i){
-   //   		var rand = Math.floor(Math.random()*deathTexts.length)
-			// console.log(deathTexts[rand].innerHTML);
-			// $.get('/send_sms/'+numbers[i]+'/'+deathTexts[rand].innerHTML, function(response){
-			// 	console.log(response);
-			// })
-   //   	});
  });
 
 

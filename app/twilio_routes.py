@@ -3,8 +3,8 @@ from app import app
 from twilio import twiml
 import random
 
-@app.route('/get_calls')
-def get_calls():
+@app.route('/get_numbers')
+def get_numbers():
     numbers = []
     auth = (app.config['TWILIO_ACCOUNT_SID'], app.config['TWILIO_AUTH_TOKEN'])
     params = {
@@ -14,10 +14,8 @@ def get_calls():
     r = requests.get("http://api.twilio.com/2010-04-01/Accounts/"+app.config['TWILIO_ACCOUNT_SID']+"/Calls.json", params=params, auth=auth)
     r = r.json()
     for call in r["calls"]:
-        number = {
-            "number" : call["from_formatted"]
-        }
-        numbers.append(number)
+        if call["from_formatted"] not in numbers:
+            numbers.append(call["from_formatted"])
     return json.dumps(numbers)
 
 @app.route('/send_sms/<phone_number>/<message>')
@@ -50,4 +48,24 @@ def respond_to_incoming_sms():
     # Send TwiML response
     resp = twiml.Response()
     resp.sms(random_message)
+    return str(resp)
+
+@app.route('/incoming_call', methods=['GET'])
+def incoming_call():
+    resp = twiml.Response()
+    # Play an mp3
+    sound = request.args.get("sound")
+    resp.play(sound)
+    resp.say("Now record your own message.")
+    resp.record(maxLength="30", action="/handle_recording")
+    return str(resp)
+    
+@app.route('/handle_recording', methods=['GET', 'POST'])
+def handle_recording():
+    """Play back the caller's recording."""
+ 
+    recording_url = request.values.get("RecordingUrl", None)
+ 
+    resp = twiml.Response()
+    resp.say("That was beautiful.")
     return str(resp)
