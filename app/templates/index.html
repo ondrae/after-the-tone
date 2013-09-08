@@ -26,11 +26,11 @@
 			<h2>When people call this number</h2>
 			<h1>415-741-2078</h1>
 		</div>
-		<div class="col-lg-4 col-md-4 col-4">
-			<h2>they'll hear this message</h2>
-			<audio src="http://after-the-tone.s3-us-west-1.amazonaws.com/i-have-died.mp3"controls>
-				<p>Your browser does not support the audio element.</p>
-			</audio>
+		<div id="collected-recordings" class="col-lg-4 col-md-4 col-4">
+			<h2>they'll be asked to leave a message.</h2>
+			<button id="get-collected-recordings" type="button" class="btn btn-default">Get Collected Recordings</button>
+			<ul>
+			</ul>
 		</div>
 	  </section>
 
@@ -63,12 +63,6 @@
 				{% endfor %}
 			</ul>
 		</div>
-			<div id="collected-recordings" class="col-lg-4 col-md-4 col-4">
-				<h2>Collected Recordings</h2>
-				<button id="get-collected-recordings" type="button" class="btn btn-default">Get Collected Recordings</button>
-				<ul>
-				</ul>
-			</div>
 	  </section>
 
 
