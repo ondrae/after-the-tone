@@ -32,21 +32,22 @@ def send_sms(phone_number, message):
 @app.route('/respond_to_incoming_sms', methods=['GET', 'POST'])
 def respond_to_incoming_sms():
 
-    # Get response messags
+    # Setup headers for Parse
     headers = {
         "X-Parse-Application-Id" : app.config['X_PARSE_APPLICATION_ID'],
         "X-Parse-REST-API-Key" : app.config['X_PARSE_REST_API_KEY']
     }
 
+    # Get response messages
     r = requests.get("https://api.parse.com/1/classes/DeathTexts", headers=headers)
     r = r.json()
     r = r['results']
 
-    # Choose random message
+    # Choose random response message
     random_message = random.choice(r)
     random_message = random_message['text']
 
-    # Send TwiML response
+    # Send random response message as TwiML
     resp = twiml.Response()
     resp.sms(random_message)
     return str(resp)
