@@ -41,3 +41,21 @@ def save_text():
     if id == 'death-switch-message':
         requests.post("https://api.parse.com/1/classes/DeathSwitchMessage/", data=post_data, headers=headers)
     return json.loads(post_data)["text"]
+
+@app.route("/audio_message_state", methods=["GET","POST"])
+def audio_message_state():
+    headers = {
+        "X-Parse-Application-Id" : app.config['X_PARSE_APPLICATION_ID'],
+        "X-Parse-REST-API-Key" : app.config['X_PARSE_REST_API_KEY']
+    }
+    # Get audio message switch state
+    if request.method == "GET":
+        r = requests.get("https://api.parse.com/1/classes/AudioMessageSwitch/VjIqgRWZIE", headers=headers)
+        r = r.json()
+        return str(r["state"])
+    # Set audio message switch state
+    if request.method == "POST":
+        state = request.form['state'] == "true"
+        post_data = json.dumps({"state" : state})
+        r = requests.put("https://api.parse.com/1/classes/AudioMessageSwitch/VjIqgRWZIE", data=post_data, headers=headers)
+        return r.content

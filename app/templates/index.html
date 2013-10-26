@@ -1,9 +1,11 @@
 <!doctype html>
 	<title>After the Tone</title>
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="static/bootstrap-switch.css">
 	<link rel="stylesheet" href="static/main.css">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="http://www.appelsiini.net/download/jquery.jeditable.js"></script>
+	<script src="static/bootstrap-switch.js"></script>
 <body class="container">
 	  <header>
 	  	    <!-- Fixed navbar -->
@@ -22,9 +24,24 @@
 	  </header>
 
 	  <section id="monologue" class="row">
-	  	<div class="col-lg-6 col-md-6 col-6 col-offset-1">
+	  	<div class="col-lg-4 col-md-4 col-4 col-offset-1">
 			<h2>When people call this number</h2>
 			<h1>415-741-2078</h1>
+		</div>
+		<div id="outgoing-sounds" class="col-lg-4 col-md-4 col-4">
+			<h2>they'll hear a message.</h2>
+			<div class="row">
+				Which message should they hear?
+				<div class="make-switch switch-large" data-on="warning" data-off="danger" data-on-label="Creepy Audio Recording" data-off-label="Creepy Robolady">
+				    <input type="checkbox" checked>
+				</div>
+				<div>
+				This is the creepy audio recording. Email Andrew a new one to change.
+				<br/>
+				<audio src="https://s3-us-west-1.amazonaws.com/after-the-tone/i-have-died.mp3" controls>
+				</div>
+			</div>
+			</ul>
 		</div>
 		<div id="collected-recordings" class="col-lg-4 col-md-4 col-4">
 			<h2>they'll be asked to leave a message.</h2>
@@ -46,6 +63,7 @@
 	    	<h2>then throw the Death Switch</h2>
 	        <button id="death-switch-btn" type="button" class="btn btn-block btn-warning"><img src="static/death.svg"></button>
 		</div>
+
 		<div class="col-lg-6 col-md-6 col-6">
 	  		<h2>to send this message (click to edit)</h2>
 		    <p id="death-switch-message" class="edit_area">
@@ -80,6 +98,22 @@ $(document).ready(function() {
          tooltip   : 'Click to edit...'
      });
 
+     // Get audio message switch state
+     $.get("/audio_message_state", function(response){
+     	console.log(response);
+     	var bool = (response == "true")
+     	$(".make-switch").bootstrapSwitch('setState', bool);
+     })
+     
+     // Set audio message switch state
+     $('.make-switch').on('switch-change', function (e, data) {
+     	var state = data.value;
+     	var data = {"state" : state}
+     	$.post('/audio_message_state', data, function(response){
+     		console.log(response);
+     	});
+     });
+
      var numbers = [];
 
      $("#get-collected-numbers").click(function(evt){
@@ -98,7 +132,7 @@ $(document).ready(function() {
 			$.get('/send_sms/'+numbers[i]+'/'+$("#death-switch-message").html(), function(response){
 			console.log(response);
 			})
-			});
+		});
 	})
 
      $("#get-collected-recordings").click(function(evt){

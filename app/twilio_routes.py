@@ -55,10 +55,23 @@ def respond_to_incoming_sms():
 @app.route('/incoming_call', methods=['GET'])
 def incoming_call():
     resp = twiml.Response()
-    # Play an mp3
-    # sound = request.args.get("sound")
-    # resp.play(sound)
-    resp.say("Now record your own message.", voice="woman")
+    # Get audiomessagestate
+    # If true, play recorded audio
+    # If false, play robolady
+    # Setup headers for Parse
+    headers = {
+        "X-Parse-Application-Id" : app.config['X_PARSE_APPLICATION_ID'],
+        "X-Parse-REST-API-Key" : app.config['X_PARSE_REST_API_KEY']
+    }
+    r = requests.get("https://api.parse.com/1/classes/AudioMessageSwitch", headers=headers)
+    r = r.json()
+    state = r['results'][0]['state']
+    if state:
+        # Play mp3
+        resp.play("https://s3-us-west-1.amazonaws.com/after-the-tone/i-have-died.mp3")
+    else:
+        # Say 
+        resp.say("Now record your own message.", voice="woman")
     resp.record(maxLength="10", action="/handle_recording")
     return str(resp)
     
