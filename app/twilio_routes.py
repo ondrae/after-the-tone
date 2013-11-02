@@ -68,7 +68,7 @@ def incoming_call():
     state = r['results'][0]['state']
     if state:
         # Play mp3
-        resp.play("https://s3-us-west-1.amazonaws.com/after-the-tone/i-have-died.mp3")
+        resp.play("https://s3-us-west-1.amazonaws.com/after-the-tone/Memo.mp3")
     else:
         # Say 
         resp.say("Now record your own message.", voice="woman")
